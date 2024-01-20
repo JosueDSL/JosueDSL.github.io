@@ -1,0 +1,26 @@
+/* Set general box model to border-box */
+.container, .container * {    
+    box-sizing: border-box;
+}
+
+/* Main Parent Elements */
+/* header {
+
+}
+
+main {
+
+}
+
+footer {
+
+} */
+
+/*     Child Elements     */
+
+
+/* Header */
+
+/* Content */
+
+/* Footer */
