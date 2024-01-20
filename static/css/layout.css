@@ -18,13 +18,13 @@ main {
 }
 
 a {
-    color: #2c8dce;
+    color: #aa8bff;
     text-decoration: none;
 }
 
 a:hover {
     /* color: #c2c2c2; */
-    color: #2c8dce;
+    color: #9c79ff;
     text-decoration: underline;
 }
 
@@ -72,10 +72,37 @@ main p {
     line-height: 1.5;
 }
 
+.icons {
+    justify-content: center;
+    margin: 20px 0 0 ;
+    display: flex;
+}
+.icons a img {
+    width: 40px;
+    margin: 0 35px;
+}
+.icon-item {
+    margin: 10px;
+    text-align: center;
+}
+
 /* Footer */
+footer p {
+    text-align: center;
+    font-size: 14px;
+    margin: 20px 0 10px;
+}
+.special-icons img{
+    height: 36px;
+}
 
+.special-icons p{
+    margin: 24px 0 0 0;
+}
 
-
+#github p {
+    margin: 20px 0 18px 0;
+}
 
 /* Set general box model to border-box */
 .container {
