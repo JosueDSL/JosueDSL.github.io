@@ -1,18 +1,26 @@
-/* Set general box model to border-box */
-.container, .container * {    
+/* Main Parent Elements */
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
+    height: 100%;
+    width: 100%;
     background-color: #252526;
-        color: whitesmoke
+    color: whitesmoke;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
-/* Main Parent Elements */
+
 /* header {
 
 }
 
-main {
+/* main { 
 
 }
+
 
 footer {
 
@@ -20,8 +28,37 @@ footer {
 
 /*     Child Elements     */
 
+main p {
+    font-size: 18px;
+    line-height: 1.5;
+
+}
+
+header img {
+    margin: 0 auto;
+
+}
+
+header h1 {
+    text-align: center;
+    color: white;
+}
+
+header a {
+    color: whitesmoke
+}
+
+/* Set general box model to border-box */
+.container {
+    box-sizing: border-box;
+    margin: 0 40rem;
+    padding: 1.5;
+}
 
 /* Header */
+.navigation {
+    text-align: center;
+}
 
 /* Content */
 
