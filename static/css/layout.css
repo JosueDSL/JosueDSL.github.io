@@ -1,6 +1,8 @@
 /* Set general box model to border-box */
 .container, .container * {    
     box-sizing: border-box;
+    background-color: #252526;
+        color: whitesmoke
 }
 
 /* Main Parent Elements */
