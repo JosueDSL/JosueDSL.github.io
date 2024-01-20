@@ -1,65 +1,81 @@
 /* Main Parent Elements */
 body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
+    margin: 0 auto;
     box-sizing: border-box;
-    height: 100%;
-    width: 100%;
     background-color: #252526;
     color: whitesmoke;
     font-family: Helvetica, Arial, sans-serif;
 }
 
-
-/* header {
-
+header {
+    text-align: center;
 }
 
-/* main { 
-
+main { 
+    background-color: #2d2d30;
+    padding: 15px;
+    border-radius: 20px;
 }
 
 
-footer {
+/* footer {
 
-} */
+} */ 
 
 /*     Child Elements     */
 
-main p {
-    font-size: 18px;
-    line-height: 1.5;
-
+/* Header */
+div.navigation {
+    margin: 0 0 20px;
 }
 
 header img {
     margin: 0 auto;
-
+    width: 200px;
 }
 
 header h1 {
-    text-align: center;
     color: white;
 }
 
 header a {
     color: whitesmoke
 }
+span a {
+    font-size: 24px;
+    text-decoration: none;
+}
+
+.navigation a {
+    margin: 0 10px;
+}
+.navigation a:hover {
+    color: #c2c2c2;
+}
+
+/* Content */
+.main-wrapper {
+    background-color: #272727;
+    padding: 15px;
+    border-radius: 20px;
+}
+main p {
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+/* Footer */
+
+
+
 
 /* Set general box model to border-box */
 .container {
     box-sizing: border-box;
-    margin: 0 40rem;
-    padding: 1.5;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
 }
 
-/* Header */
-.navigation {
-    text-align: center;
-}
 
-/* Content */
-
-/* Footer */
+/* ID's */
