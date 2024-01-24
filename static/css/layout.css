@@ -26,7 +26,7 @@ main {
     color: #c1acf7;
 }
 
-.main-wrapper a:hover {
+a:hover, .main-wrapper a:hover{
     /* color: #c2c2c2; */
     color: #855cf3;
     text-decoration: underline;
