@@ -17,21 +17,22 @@ main {
     border-radius: 20px;
 }
 
-a:link {
+.main-wrapper a:link {
     color: #aa8bff;
     text-decoration: none;
     cursor: pointer;
 }
-a:visited { 
+.main-wrapper a:visited { 
     color: #c1acf7;
 }
 
-a:hover {
+.main-wrapper a:hover {
     /* color: #c2c2c2; */
     color: #855cf3;
     text-decoration: underline;
 }
-a:active {
+
+a:active, .main-wrapper a:active {
     color: #845cf362;
 }
 
