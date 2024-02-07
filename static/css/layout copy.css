@@ -1,0 +1,42 @@
+body {
+    display: grid;
+    grid-template: repeat(12, 1fr) / repeat(16, 1fr);
+    gap: .5rem;
+    background-color: #252526;
+    justify-content: center;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    grid-area: 1 / 6 / span 2 / span 6;
+    border: 1px solid red;
+    background-color: antiquewhite;
+}
+
+header img {
+    margin-top: 1rem;
+    width: 12rem;
+}
+
+main {
+    display: grid;
+    grid-template: repeat(12, 1fr) / repeat(16, 1fr);
+    gap: .25rem;
+    grid-area: 3 / 5 / span 8 / span 8;
+    background-color: antiquewhite;
+    border: 2px solid blue;
+}
+
+.container {
+    grid-area: 1 / 1 / span 12 / span 16;
+}
+
+
+.links {
+    grid-area: 11 / 5 / span 2 / span 8;
+    background-color: antiquewhite;
+    border: 2px solid green;
+}
