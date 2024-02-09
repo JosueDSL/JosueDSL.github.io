@@ -1,18 +1,17 @@
-/* Main Parent Elements */
-html {
-    width: 100%;
+/* Globals */
+
+* {
+    box-sizing: border-box;
 }
+
 body {
-    margin: 0 auto;
     box-sizing: border-box;
     background-color: #252526;
     color: whitesmoke;
     font-family: Helvetica, Arial, sans-serif;
 }
 
-/* Set general box model to border-box */
 .container {
-    box-sizing: border-box;
     margin: 0 auto;
     width: 100%;
 }
@@ -55,6 +54,17 @@ div.navigation {
     margin: 0 0 20px;
 }
 
+
+
+
+/* Content */
+.main-wrapper {
+    margin: 0 auto;
+    background-color: #272727;
+    padding: 15px;
+    border-radius: 20px;
+}
+
 main {
     display: flex;
     justify-content: center;
@@ -62,11 +72,19 @@ main {
     background-color: #2d2d30;
     padding: 15px;
     border-radius: 20px;
-
 }
 
-.main-wrapper {
-    margin: 0 auto;
+main p {
+    font-size: 18px;
+    line-height: 1.5;
+    margin: 0.9rem 0;
+}
+
+div.icons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px 0 0;
 }
 
 .main-wrapper a:link {
@@ -89,35 +107,6 @@ a:hover,
 a:active,
 .main-wrapper a:active {
     color: #845cf362;
-}
-
-/* footer {
-
-} */
-
-/*     Child Elements     */
-
-
-
-
-/* Content */
-.main-wrapper {
-    box-sizing: border-box;
-    background-color: #272727;
-    padding: 15px;
-    border-radius: 20px;
-}
-
-main p {
-    font-size: 18px;
-    line-height: 1.5;
-}
-
-div.icons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 20px 0 0;
 }
 
 .icons a img {
@@ -147,6 +136,12 @@ footer p {
 
 #github p {
     margin: 20px 0 18px 0;
+}
+
+@media only screen and (max-width: 500px) {
+    main p {
+        margin: 0.8rem 0;
+    }
 }
 
 @media only screen and (min-width: 800px) and (max-width: 815px) {
