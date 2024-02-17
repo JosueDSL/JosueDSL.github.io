@@ -12,8 +12,8 @@ body {
 .container {
     margin: 0 auto;
     width: 100%;
+    padding: 0 1%;
 }
-
 /* Header */
 header {
     display: flex;
@@ -35,6 +35,11 @@ header a {
     color: whitesmoke
 }
 
+header a:hover {
+    color: #855cf3;
+    text-decoration: underline;
+}
+
 span a {
     font-size: 1.5rem;
     text-decoration: none;
@@ -52,112 +57,54 @@ div.navigation {
     margin: 0 0 20px;
 }
 
-
-/* Content */
-.main-wrapper {
-    margin: 0 auto;
-    background-color: #272727;
-    padding: 15px;
-    border-radius: 20px;
-}
-
+/* Main */
 main {
     display: flex;
-    justify-content: center;
     flex-direction: column;
-    background-color: #2d2d30;
-    padding: 15px;
-    border-radius: 20px;
+    margin: 20px 0;
 }
 
-main p {
-    font-size: 1.1rem;
-    line-height: 1.5;
-    margin: 0.9rem 0;
+.subscribe {
+    margin: 2% 0;
 }
 
-div.icons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 20px 0 0;
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    /* 16:9 aspect ratio (9 / 16 * 100) */
+    margin: 2% 0;
 }
 
-.main-wrapper a:link {
-    color: #aa8bff;
-    text-decoration: none;
-    cursor: pointer;
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
-.main-wrapper a:visited {
-    color: #c1acf7;
-}
-
-a:hover,
-.main-wrapper a:hover {
-    /* color: #c2c2c2; */
-    color: #855cf3;
-    text-decoration: underline;
-}
-
-a:active,
-.main-wrapper a:active {
-    color: #845cf362;
-}
-
-.icons a img {
-    width: 40px;
-    margin: 0 35px;
-}
-
-.icon-item {
-    margin: 10px;
-    text-align: center;
-}
-
-.special-icons img {
-    height: 36px;
-}
-
-.special-icons p {
-    margin: 24px 0 0 0;
-}
-
-#github p {
-    margin: 20px 0 18px 0;
-}
-
-/* Footer */
-
-footer p {
-    text-align: center;
-    font-size: 0.9rem;
-    margin: 20px 0 10px;
-}
-
-
+/* Media Queries */
 @media only screen and (max-width: 500px) {
+    .container {
+        padding: 0 3.5%;
+    }
+
     main p {
         margin: 0.8rem 0;
     }
-}
 
-@media only screen and (min-width: 800px) and (max-width: 815px) {
-    .main-wrapper {
-           
-            max-width: 100%;
-        }
-    .container {
-        max-width: 100%;
+    .subscribe {
+        margin: 5% 0;
+    }
+    .video-container {
+    margin-bottom: 4%;
     }
 }
 
 @media only screen and (min-width: 800px) {
     .container {
         max-width: 800px;
-    }
-
-    .main-wrapper {
         width: 50rem;
     }
 }
@@ -181,10 +128,10 @@ footer p {
 }
 
 @media only screen and (min-width: 2400px) {
-
     html {
         font-size: 125%;
     }
+
     .container {
         max-width: 2400px
     }
