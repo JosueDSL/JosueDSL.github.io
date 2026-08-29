@@ -7,7 +7,18 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
-const postsByYear = [...Map.groupBy(posts, (post) => post.data.pubDate.getUTCFullYear()).entries()];
+// Grouped with a fold rather than Map.groupBy, which needs Node 21+ and breaks
+// on the CI runner's Node. `posts` is already sorted newest-first, so appending
+// to the trailing group preserves both year order and within-year order.
+type YearGroup = [year: number, posts: typeof posts];
+
+const postsByYear = posts.reduce<YearGroup[]>((groups, post) => {
+  const year = post.data.pubDate.getUTCFullYear();
+  const current = groups.at(-1);
+  if (current && current[0] === year) current[1].push(post);
+  else groups.push([year, [post]]);
+  return groups;
+}, []);
 ---
 
 <BaseLayout
@@ -18,7 +29,9 @@ const postsByYear = [...Map.groupBy(posts, (post) => post.data.pubDate.getUTCFul
     <p class="eyebrow">Writing</p>
     <h1>Blog</h1>
     <p class="intro">
-      Notes on backend engineering, system design, and things I learn along the way. · <a href="/blog/tags">browse by tag</a>.
+      Notes on backend engineering, system design, and things I learn along the way. · <a href="/blog/tags"
+        >browse by tag</a
+      >.
     </p>
   </div>
   {
