@@ -13,7 +13,7 @@ order: 2
 
 ## The problem
 
-Salesforce was the system of record behind the loyalty program, which made it the bottleneck for both cost and latency. Every customer lookup and point balance check hit the Salesforce API directly. At 380k+ daily users, that volume pushed hard against API limits and put a third-party round trip on the critical path of nearly every request.
+Salesforce was the system of record behind the loyalty program, which made it the bottleneck for both cost and latency. Every customer lookup and point balance check hit the Salesforce API directly. At 480k+ daily users, that volume pushed hard against API limits and put a third-party round trip on the critical path of nearly every request.
 
 ## The approach
 

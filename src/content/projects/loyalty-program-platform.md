@@ -1,6 +1,6 @@
 ---
 title: 'Loyalty Program Platform'
-description: 'Backend for a nationwide retail loyalty program serving 380k+ daily users at 50+ requests per second with 99.9% uptime.'
+description: 'Backend for a nationwide retail loyalty program serving 480k+ daily users at 50+ requests per second with 99.9% uptime.'
 stack: ['Node.js', 'TypeScript', 'Azure', 'PostgreSQL', 'Redis', 'Salesforce']
 role: 'Backend Lead'
 company: 'Kiosko'
@@ -14,9 +14,9 @@ order: 1
 
 ## Overview
 
-Kiosko's loyalty program is the customer-facing rewards layer across a nationwide convenience store chain. I led backend development of the platform, which serves **380,000+ daily users** at a sustained **50+ requests per second** while holding **99.9% uptime**.
+Kiosko's loyalty program is the customer-facing rewards layer across a nationwide convenience store chain with 1000+ stores across Mexico. I lead backend development of the platform, which serves 1.4M+ registered users and **480,000+ daily users** at a sustained **60+ requests per second** while holding **99.9% uptime**.
 
-The backend owns point accrual and redemption, customer identity, and the synchronization contract with Salesforce as the system of record.
+The backend acting as a middleware between the point of sale and Salesforce owns point accrual and redemption, a promotion handling module, customer identity, and the synchronization contract with Salesforce as the system of record.
 
 ## Architecture
 
@@ -26,7 +26,7 @@ Services are written in TypeScript on Node.js, deployed on Azure, with PostgreSQ
 
 ## Impact
 
-- 380k+ daily active users served at 99.9% uptime
-- 50+ req/s sustained throughput
+- 1.4M+ registered users and 480k+ daily active users served at 99.9% uptime
+- 60+ req/s sustained throughput
 - Zero downtime across a full platform migration
-- CI/CD on Azure DevOps and GitHub Actions, with optimized PostgreSQL pipelines
+- CI/CD on Azure DevOps and GitHub Actions

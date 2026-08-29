@@ -9,11 +9,11 @@
     "order": 1,
     "stack": ["Node.js", "TypeScript", "Azure", "PostgreSQL", "Redis", "Salesforce"],
     "highlights": [
-      "Led backend development of the Loyalty Program, serving 380k+ daily users at 50+ req/s with 99.9% uptime.",
+      "Lead backend development of the Loyalty Program, serving 480k+ daily users at 60+ req/s with 99.9% uptime.",
       "Engineered a Redis caching layer that cut Salesforce API consumption by 53% and response times by 42% — over 800k API calls saved per day.",
       "Architected Salesforce integrations and a dual migration strategy running legacy and new platforms in parallel behind a custom interface, with zero downtime.",
       "Implemented JWT lifecycle and OTP authentication flows to banking standards for the Loyalty Wallet app, integrated with a debit card SDK.",
-      "Built CI/CD pipelines on Azure DevOps and GitHub Actions, optimized PostgreSQL pipelines, and mentored peers while delivering reliable releases under pressure."
+      "Built CI/CD pipelines on Azure DevOps and GitHub Actions and mentored peers while delivering reliable releases under pressure."
     ]
   },
   {
