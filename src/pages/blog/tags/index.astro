@@ -1,0 +1,71 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+
+const tagCounts = new Map<string, number>();
+for (const post of posts) {
+  for (const tag of post.data.tags) {
+    tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+  }
+}
+
+const tags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+---
+
+<BaseLayout title="Tags" description="Browse blog posts by tag.">
+  <div class="page-header">
+    <p class="eyebrow">Writing</p>
+    <h1>Tags</h1>
+  </div>
+  <ul class="tag-cloud">
+    {
+      tags.map(([tag, count]) => (
+        <li>
+          <a href={`/blog/tags/${tag}`}>
+            {tag} <span class="count">{count}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding-block: var(--space-7) var(--space-6);
+  }
+
+  h1 {
+    font-size: var(--text-3xl);
+    margin-block-start: var(--space-2);
+  }
+
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    list-style: none;
+    padding: 0 0 var(--space-8);
+  }
+
+  a {
+    display: inline-block;
+    padding: var(--space-1) var(--space-4);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--accent);
+    background-color: var(--accent-subtle);
+    border-radius: 999px;
+  }
+
+  a:hover {
+    text-decoration: none;
+    color: var(--accent-hover);
+  }
+
+  .count {
+    color: var(--text-muted);
+  }
+</style>

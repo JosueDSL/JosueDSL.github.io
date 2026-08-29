@@ -1,0 +1,120 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import ProseLayout from '../../layouts/ProseLayout.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects', ({ data }) => !data.draft);
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { title, description, stack, role, links, date, company, companyUrl } = project.data;
+const { Content } = await render(project);
+---
+
+<ProseLayout {title} {description}>
+  <Fragment slot="header">
+    <p class="eyebrow">Project</p>
+    <h1>{title}</h1>
+    <p class="description">{description}</p>
+    <dl class="meta">
+      <div>
+        <dt>Role</dt>
+        <dd>{role}</dd>
+      </div>
+      {
+        company && (
+          <div>
+            <dt>Company</dt>
+            <dd>
+              {companyUrl ? (
+                <a href={companyUrl} target="_blank" rel="noopener noreferrer">
+                  {company}
+                </a>
+              ) : (
+                company
+              )}
+            </dd>
+          </div>
+        )
+      }
+      <div>
+        <dt>Date</dt>
+        <dd><FormattedDate {date} /></dd>
+      </div>
+      <div>
+        <dt>Stack</dt>
+        <dd>{stack.join(' · ')}</dd>
+      </div>
+      {
+        (links.repo || links.live) && (
+          <div>
+            <dt>Links</dt>
+            <dd class="link-row">
+              {links.repo && (
+                <a href={links.repo} target="_blank" rel="noopener noreferrer">
+                  Repository ↗
+                </a>
+              )}
+              {links.live && (
+                <a href={links.live} target="_blank" rel="noopener noreferrer">
+                  Live ↗
+                </a>
+              )}
+            </dd>
+          </div>
+        )
+      }
+    </dl>
+  </Fragment>
+  <Content />
+</ProseLayout>
+
+<style>
+  h1 {
+    font-size: var(--text-3xl);
+    margin-block: var(--space-2) var(--space-3);
+  }
+
+  .description {
+    color: var(--text-muted);
+    margin-block-end: var(--space-5);
+  }
+
+  .meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, max-content));
+    gap: var(--space-5);
+    padding: var(--space-4) 0;
+    border-block: 1px solid var(--border);
+    margin: 0;
+  }
+
+  dt {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-block-end: var(--space-1);
+  }
+
+  dd {
+    margin: 0;
+    font-size: var(--text-sm);
+  }
+
+  .link-row {
+    display: flex;
+    gap: var(--space-3);
+  }
+</style>

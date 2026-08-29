@@ -1,0 +1,70 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import YouTubeEmbed from '../components/YouTubeEmbed.astro';
+
+const videos = await getCollection('videos');
+
+const CHANNEL_URL = 'https://www.youtube.com/channel/UCtZykI5ls-Knmem_o7m6gSg';
+const PLAYLIST_URL = 'https://www.youtube.com/playlist?list=PLMbdJMoTREYUy26fWNmroSh3tAqGFf9Vx';
+---
+
+<BaseLayout
+  title="Videos"
+  description="CS50x taught in Spanish — free computer science lectures by Josue de Santos on YouTube."
+>
+  <div class="page-header">
+    <p class="eyebrow">Teaching</p>
+    <h1>CS50 in Spanish</h1>
+    <p class="intro">
+      Computer science education should be accessible regardless of language. Harvard's CS50x isn't offered in
+      Spanish, so I taught it one-on-one, documented every session, and published the lectures for free.
+      Subscribe on <a href={CHANNEL_URL} target="_blank" rel="noopener noreferrer">YouTube</a> or watch the
+      <a href={PLAYLIST_URL} target="_blank" rel="noopener noreferrer">full playlist</a>.
+    </p>
+  </div>
+  <div class="video-grid">
+    {
+      videos.map((video) => (
+        <div class="video-item">
+          <YouTubeEmbed id={video.data.id} title={video.data.title} start={video.data.start} />
+          <h2>{video.data.title}</h2>
+          <p>{video.data.description}</p>
+        </div>
+      ))
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding-block: var(--space-7) var(--space-6);
+  }
+
+  h1 {
+    font-size: var(--text-3xl);
+    margin-block: var(--space-2) var(--space-3);
+  }
+
+  .intro {
+    max-width: var(--content-width);
+    color: var(--text-muted);
+  }
+
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(24rem, 100%), 1fr));
+    gap: var(--space-6);
+    padding-block-end: var(--space-8);
+  }
+
+  .video-item h2 {
+    font-size: var(--text-lg);
+    margin-block: var(--space-3) var(--space-1);
+  }
+
+  .video-item p {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+</style>

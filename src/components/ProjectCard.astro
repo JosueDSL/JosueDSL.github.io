@@ -1,0 +1,121 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { title, description, stack, links, company } = project.data;
+---
+
+<article class="project-card">
+  {company && <p class="company">{company}</p>}
+  <h3>
+    <a href={`/projects/${project.id}`}>{title}</a>
+  </h3>
+  <p class="description">{description}</p>
+  <ul class="stack" aria-label="Tech stack">
+    {stack.map((tech) => <li>{tech}</li>)}
+  </ul>
+  {
+    (links.repo || links.live) && (
+      <p class="links">
+        {links.repo && (
+          <a href={links.repo} target="_blank" rel="noopener noreferrer">
+            Repository ↗
+          </a>
+        )}
+        {links.live && (
+          <a href={links.live} target="_blank" rel="noopener noreferrer">
+            Live ↗
+          </a>
+        )}
+      </p>
+    )
+  }
+</article>
+
+<style>
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    background-color: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    transition: border-color var(--transition);
+  }
+
+  .project-card:hover {
+    border-color: var(--accent-500);
+  }
+
+  .company {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-block-end: calc(var(--space-2) * -1);
+  }
+
+  h3 {
+    font-size: var(--text-lg);
+  }
+
+  h3 a {
+    color: var(--text);
+  }
+
+  h3 a:hover {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  /* Make the whole card clickable without wrapping it in an anchor. */
+  h3 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .project-card {
+    position: relative;
+  }
+
+  .description {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    margin-block-start: auto;
+  }
+
+  .stack li {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--accent);
+    background-color: var(--accent-subtle);
+    padding: 0.1rem var(--space-2);
+    border-radius: 4px;
+  }
+
+  .links {
+    display: flex;
+    gap: var(--space-4);
+    font-size: var(--text-sm);
+  }
+
+  .links a {
+    position: relative;
+    z-index: 1;
+  }
+</style>

@@ -1,0 +1,48 @@
+[
+  {
+    "id": "kiosko",
+    "company": "Kiosko",
+    "url": "https://mikiosko.mx/yaya/",
+    "role": "Azure Backend Software Developer",
+    "start": "2024-10",
+    "end": null,
+    "order": 1,
+    "stack": ["Node.js", "TypeScript", "Azure", "PostgreSQL", "Redis", "Salesforce"],
+    "highlights": [
+      "Led backend development of the Loyalty Program, serving 380k+ daily users at 50+ req/s with 99.9% uptime.",
+      "Engineered a Redis caching layer that cut Salesforce API consumption by 53% and response times by 42% — over 800k API calls saved per day.",
+      "Architected Salesforce integrations and a dual migration strategy running legacy and new platforms in parallel behind a custom interface, with zero downtime.",
+      "Implemented JWT lifecycle and OTP authentication flows to banking standards for the Loyalty Wallet app, integrated with a debit card SDK.",
+      "Built CI/CD pipelines on Azure DevOps and GitHub Actions, optimized PostgreSQL pipelines, and mentored peers while delivering reliable releases under pressure."
+    ]
+  },
+  {
+    "id": "inbest",
+    "company": "iNBest",
+    "url": "https://www.inbest.cloud/en/",
+    "role": "Cloud-Based Backend Software Developer",
+    "start": "2023-04",
+    "end": "2024-10",
+    "order": 2,
+    "stack": ["Python", "Django", "Flask", "AWS", "Azure", "PostgreSQL", "MySQL"],
+    "highlights": [
+      "Managed cloud infrastructure across AWS and Azure, deploying backend services for high availability.",
+      "Developed RESTful APIs and SOAP endpoints powering web and mobile client integrations.",
+      "Designed PostgreSQL and MySQL schemas with ORM-backed data access, documenting architecture through flowcharts and ER diagrams.",
+      "Automated unit, integration, and deployment testing within an Agile/SCRUM workflow to hold code quality as the system scaled."
+    ]
+  },
+  {
+    "id": "nextiva",
+    "company": "Nextiva",
+    "url": "https://www.nextiva.com/",
+    "role": "Technical Support Specialist",
+    "start": "2022-06",
+    "end": "2023-03",
+    "order": 3,
+    "stack": ["VoIP", "Networking", "Salesforce", "Linux"],
+    "highlights": [
+      "Help desk and IT support for VoIP and network issues, including DHCP/DNAT troubleshooting and hardware provisioning."
+    ]
+  }
+]
