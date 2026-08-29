@@ -1,0 +1,387 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import ExperienceItem from '../components/ExperienceItem.astro';
+import SocialLinks from '../components/SocialLinks.astro';
+import { yearsOfExperience } from '../lib/experience';
+import profile from '../assets/profile.png';
+
+const featuredProjects = (await getCollection('projects', ({ data }) => data.featured && !data.draft))
+  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
+  .slice(0, 3);
+
+const roles = (await getCollection('experience')).sort((a, b) => a.data.order - b.data.order);
+
+// Derived at build time from src/lib/experience.ts — never edit this by hand.
+const years = yearsOfExperience();
+
+const skills = [
+  { label: 'Languages', items: ['Python', 'TypeScript', 'JavaScript', 'SQL', 'Java'] },
+  {
+    label: 'Frameworks',
+    items: ['Node.js', 'Django', 'Flask', 'Express', 'SQLAlchemy', 'GraphQL', 'Pandas'],
+  },
+  { label: 'Data', items: ['PostgreSQL', 'MySQL', 'MongoDB', 'Redis'] },
+  {
+    label: 'Cloud & DevOps',
+    items: ['Azure', 'AWS', 'Docker', 'CI/CD', 'GitHub Actions', 'Serverless', 'Microservices'],
+  },
+  { label: 'Practices', items: ['OOP', 'SOLID', 'Design patterns', 'Agile/SCRUM', 'Linux', 'Git'] },
+];
+
+const certifications = [
+  {
+    title: 'Back-End Engineer, Professional Certification',
+    issuer: 'Codecademy',
+    url: 'https://www.codecademy.com/profiles/josueds/certificates/810f53d14de24b938cc13c7c2af1e686',
+  },
+  {
+    title: 'CS50: Introduction to Computer Science',
+    issuer: 'Harvard University',
+    url: 'https://certificates.cs50.io/1d549400-858c-44e0-a772-0626e8d27e16.pdf?size=letter',
+  },
+];
+
+const personSchema = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Josue de Santos',
+  url: 'https://www.josueds.me',
+  jobTitle: 'Backend Software Engineer',
+  email: 'mailto:josue@josueds.me',
+  address: { '@type': 'PostalAddress', addressLocality: 'Guadalajara', addressCountry: 'MX' },
+  sameAs: [
+    'https://github.com/JosueDSL',
+    'https://www.linkedin.com/in/josuedesantos',
+    'https://www.youtube.com/channel/UCtZykI5ls-Knmem_o7m6gSg',
+  ],
+});
+---
+
+<BaseLayout
+  title="Josue de Santos"
+  description="Backend software engineer in Guadalajara, Mexico. I design and build reliable APIs, services, and data systems — and teach computer science in Spanish."
+>
+  <script type="application/ld+json" set:html={personSchema} slot="head" />
+
+  <section class="hero">
+    <div class="hero-text">
+      <p class="eyebrow">Backend Software Engineer</p>
+      <h1>Josue de Santos</h1>
+      <p class="lede">
+        I design and build the systems behind the product — APIs, integrations, and data layers that stay
+        reliable under real-world load. Based in Guadalajara, Mexico, with {years}+ years of professional
+        backend experience across Node.js, TypeScript, and Python.
+      </p>
+      <div class="hero-actions">
+        <a class="button" href="mailto:josue@josueds.me">Get in touch</a>
+        <a class="button button-secondary" href="/static/media/resume.pdf">Resume</a>
+      </div>
+    </div>
+    <Image
+      src={profile}
+      alt="Portrait of Josue de Santos"
+      width={280}
+      densities={[1, 2]}
+      loading="eager"
+      class="hero-photo"
+    />
+  </section>
+
+  <Section eyebrow="00 — Capabilities" title="What I work on">
+    <p class="capabilities-intro">
+      What {years}+ years of cloud backend development and system design have actually built up — accumulated
+      over a range of projects rather than any single one.
+    </p>
+    <ul class="capabilities">
+      <li>
+        <strong>API &amp; service design.</strong>
+        REST and SOAP services in TypeScript/Node.js and Python — Django and Flask APIs hosted in both Azure and AWS powering web and mobile
+        clients, and the services behind a loyalty platform sustaining 1.4M registered users and 60+ requests per second for 480k+ daily users.
+        Third-party integrations against Salesforce through a middlware, and authentication flows built to banking standards with JWT
+        lifecycle management and OTP.
+      </li>
+      <li>
+        <strong>Data &amp; infrastructure.</strong>
+        PostgreSQL and MySQL schema design with ORM-backed access, on cloud infrastructure across Azure and AWS.
+        Caching strategy where it earns its keep — a Redis layer that cut third-party API consumption by 53% and
+        response times by 42%, saving over 800,000 calls a day.
+      </li>
+      <li>
+        <strong>Reliability &amp; operations.</strong>
+        CI/CD pipelines on Azure DevOps and GitHub Actions, with automated unit, integration, and deployment testing
+        inside an Agile/SCRUM workflow. 99.9% uptime in production, including a full platform migration delivered
+        with zero downtime.
+      </li>
+    </ul>
+  </Section>
+
+  <Section eyebrow="01 — Experience" title="Where I've worked">
+    <div class="experience-list">
+      {roles.map((entry) => <ExperienceItem {entry} />)}
+    </div>
+  </Section>
+
+  <Section eyebrow="02 — Selected work" title="Projects">
+    <div class="project-grid">
+      {featuredProjects.map((project) => <ProjectCard {project} />)}
+    </div>
+    <p class="section-more"><a href="/projects">All projects →</a></p>
+  </Section>
+
+  <Section eyebrow="03 — Toolkit" title="Skills">
+    <dl class="skills">
+      {
+        skills.map((group) => (
+          <div class="skill-group">
+            <dt>{group.label}</dt>
+            <dd>
+              <ul>
+                {group.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+    <ul class="certifications">
+      {
+        certifications.map((cert) => (
+          <li>
+            <a href={cert.url} target="_blank" rel="noopener noreferrer">
+              {cert.title}
+            </a>
+            <span class="issuer">{cert.issuer}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section eyebrow="04 — Teaching" title="CS50 in Spanish">
+    <p class="teaching-text">
+      Knowledge compounds when it's shared. I taught Harvard's CS50x one-on-one in Spanish — a language the
+      course isn't offered in — documented every session, and published it for free on YouTube.
+    </p>
+    <p class="section-more"><a href="/videos">Watch the lectures →</a></p>
+  </Section>
+
+  <Section eyebrow="05 — Contact" title="Let's connect" id="contact">
+    <p class="teaching-text">
+      Whether it's backend architecture, an interesting problem, or teaching — I'd love to hear from you at
+      <a href="mailto:josue@josueds.me">josue@josueds.me</a>.
+    </p>
+    <SocialLinks />
+  </Section>
+</BaseLayout>
+
+<style>
+  .hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-7);
+    padding-block: var(--space-8) var(--space-8);
+  }
+
+  .hero-text {
+    max-width: 36rem;
+  }
+
+  h1 {
+    font-size: var(--text-4xl);
+    margin-block: var(--space-2) var(--space-4);
+  }
+
+  .lede {
+    font-size: var(--text-lg);
+    color: var(--text-muted);
+    text-wrap: pretty;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: var(--space-3);
+    margin-block-start: var(--space-5);
+  }
+
+  .button {
+    display: inline-block;
+    padding: var(--space-2) var(--space-5);
+    background-color: var(--accent-500);
+    color: #fff;
+    border-radius: var(--radius);
+    font-weight: 550;
+    font-size: var(--text-sm);
+    transition: background-color var(--transition);
+  }
+
+  .button:hover {
+    background-color: var(--accent-600);
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .button-secondary {
+    background-color: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .button-secondary:hover {
+    background-color: var(--bg-raised);
+    color: var(--text);
+  }
+
+  .hero-photo {
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .capabilities-intro {
+    max-width: var(--content-width);
+    color: var(--text-muted);
+    margin-block-end: var(--space-5);
+  }
+
+  .capabilities {
+    list-style: none;
+    padding: 0;
+    max-width: var(--content-width);
+  }
+
+  .capabilities li {
+    padding-block: var(--space-4);
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    border-top: 1px solid var(--border);
+  }
+
+  .capabilities li:first-child {
+    border-top: none;
+    padding-block-start: 0;
+  }
+
+  .capabilities strong {
+    display: block;
+    color: var(--text);
+    font-size: var(--text-base);
+    margin-block-end: var(--space-2);
+  }
+
+  .experience-list {
+    max-width: 52rem;
+  }
+
+  .skills {
+    display: grid;
+    gap: var(--space-4);
+    max-width: 52rem;
+    margin: 0;
+  }
+
+  .skill-group {
+    display: grid;
+    grid-template-columns: 10rem 1fr;
+    gap: var(--space-4);
+    align-items: baseline;
+  }
+
+  .skill-group dt {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+
+  .skill-group dd {
+    margin: 0;
+  }
+
+  .skill-group ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+  }
+
+  .skill-group li {
+    font-size: var(--text-sm);
+    color: var(--text);
+    background-color: var(--bg-raised);
+    border: 1px solid var(--border);
+    padding: 0.1rem var(--space-3);
+    border-radius: 4px;
+  }
+
+  .certifications {
+    list-style: none;
+    padding: 0;
+    margin-block-start: var(--space-6);
+    border-top: 1px solid var(--border);
+    padding-block-start: var(--space-5);
+    max-width: 52rem;
+  }
+
+  .certifications li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+  }
+
+  .certifications li + li {
+    margin-block-start: var(--space-2);
+  }
+
+  .issuer {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 620px) {
+    .skill-group {
+      grid-template-columns: 1fr;
+      gap: var(--space-2);
+    }
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+    gap: var(--space-4);
+  }
+
+  .section-more {
+    margin-block-start: var(--space-5);
+    font-size: var(--text-sm);
+  }
+
+  .teaching-text {
+    max-width: var(--content-width);
+    color: var(--text-muted);
+    margin-block-end: var(--space-4);
+  }
+
+  @media (max-width: 720px) {
+    .hero {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+      padding-block: var(--space-6);
+    }
+
+    .hero-photo {
+      width: 160px;
+      height: 160px;
+    }
+  }
+</style>

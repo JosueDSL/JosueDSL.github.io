@@ -1,0 +1,35 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  type?: 'website' | 'article';
+}
+
+const props = Astro.props;
+---
+
+<BaseLayout {...props}>
+  <article class="prose-wrapper">
+    <header class="prose-header">
+      <slot name="header" />
+    </header>
+    <div class="prose">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .prose-wrapper {
+    max-width: var(--content-width);
+    margin-inline: auto;
+    padding-block: var(--space-7);
+  }
+
+  .prose-header:not(:empty) {
+    margin-block-end: var(--space-6);
+  }
+</style>

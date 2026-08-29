@@ -1,0 +1,89 @@
+---
+/**
+ * Click-to-load YouTube facade: renders only a thumbnail until the visitor
+ * clicks play, so no YouTube JS or iframe loads on page load.
+ */
+interface Props {
+  id: string;
+  title: string;
+  start?: number;
+}
+
+const { id, title, start } = Astro.props;
+const thumbnail = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+---
+
+<div class="yt-facade" data-video-id={id} data-start={start}>
+  <img src={thumbnail} alt="" width="480" height="360" loading="lazy" />
+  <button type="button" aria-label={`Play video: ${title}`}>
+    <svg width="68" height="48" viewBox="0 0 68 48" aria-hidden="true">
+      <path
+        d="M66.52 7.74a8 8 0 0 0-5.66-5.66C55.79.7 34 .7 34 .7s-21.79 0-26.86 1.38a8 8 0 0 0-5.66 5.66C.1 12.81.1 24 .1 24s0 11.19 1.38 16.26a8 8 0 0 0 5.66 5.66C12.21 47.3 34 47.3 34 47.3s21.79 0 26.86-1.38a8 8 0 0 0 5.66-5.66C67.9 35.19 67.9 24 67.9 24s0-11.19-1.38-16.26z"
+        fill="currentColor"></path>
+      <path d="M45 24 27 14v20" fill="#fff"></path>
+    </svg>
+  </button>
+</div>
+
+<style>
+  .yt-facade {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background-color: #000;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.85;
+  }
+
+  button {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgba(30, 30, 32, 0.85);
+    transition: color var(--transition);
+  }
+
+  button:hover {
+    color: #f00;
+  }
+
+  .yt-facade :global(iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.yt-facade').forEach((facade) => {
+    facade.querySelector('button')?.addEventListener('click', () => {
+      const id = facade.dataset.videoId;
+      const start = facade.dataset.start;
+      const params = new URLSearchParams({ autoplay: '1' });
+      if (start) params.set('start', start);
+
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?${params}`;
+      iframe.title = facade.querySelector('button')?.getAttribute('aria-label') ?? 'YouTube video';
+      iframe.allow =
+        'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+
+      facade.replaceChildren(iframe);
+    });
+  });
+</script>

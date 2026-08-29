@@ -1,0 +1,65 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import ProseLayout from '../../layouts/ProseLayout.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import TagList from '../../components/TagList.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { title, description, pubDate, updatedDate, tags } = post.data;
+const { Content } = await render(post);
+
+const postSchema = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  datePublished: pubDate.toISOString(),
+  ...(updatedDate && { dateModified: updatedDate.toISOString() }),
+  author: { '@type': 'Person', name: 'Josue de Santos', url: 'https://www.josueds.me' },
+});
+---
+
+<ProseLayout {title} {description} type="article">
+  <script type="application/ld+json" set:html={postSchema} slot="head" />
+  <Fragment slot="header">
+    <p class="post-date">
+      <FormattedDate date={pubDate} />
+      {
+        updatedDate && (
+          <span class="updated">
+            · Updated <FormattedDate date={updatedDate} />
+          </span>
+        )
+      }
+    </p>
+    <h1>{title}</h1>
+    <TagList {tags} />
+  </Fragment>
+  <Content />
+</ProseLayout>
+
+<style>
+  .post-date {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+
+  h1 {
+    font-size: var(--text-3xl);
+    margin-block: var(--space-2) var(--space-4);
+  }
+</style>

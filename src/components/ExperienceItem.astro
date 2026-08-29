@@ -1,0 +1,120 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatMonth } from '../lib/experience';
+
+interface Props {
+  entry: CollectionEntry<'experience'>;
+}
+
+const { entry } = Astro.props;
+const { company, url, role, start, end, stack, highlights } = entry.data;
+---
+
+<article class="role">
+  <p class="period">
+    {formatMonth(start)} — {formatMonth(end)}
+  </p>
+  <div class="detail">
+    <h3>
+      {role} ·{' '}
+      {
+        url ? (
+          <a href={url} target="_blank" rel="noopener noreferrer">
+            {company}
+          </a>
+        ) : (
+          company
+        )
+      }
+    </h3>
+    {
+      highlights.length > 0 && (
+        <ul class="highlights">
+          {highlights.map((highlight) => (
+            <li>{highlight}</li>
+          ))}
+        </ul>
+      )
+    }
+    {
+      stack.length > 0 && (
+        <ul class="stack" aria-label={`Technologies used at ${company}`}>
+          {stack.map((tech) => (
+            <li>{tech}</li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .role {
+    display: grid;
+    grid-template-columns: 10rem 1fr;
+    gap: var(--space-4);
+    padding-block: var(--space-5);
+    border-top: 1px solid var(--border);
+  }
+
+  .role:first-child {
+    border-top: none;
+    padding-block-start: 0;
+  }
+
+  .period {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    padding-block-start: 0.35rem;
+    white-space: nowrap;
+  }
+
+  h3 {
+    font-size: var(--text-lg);
+    margin-block-end: var(--space-3);
+  }
+
+  .highlights {
+    padding-inline-start: var(--space-4);
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .highlights li + li {
+    margin-block-start: var(--space-2);
+  }
+
+  .highlights li::marker {
+    color: var(--accent);
+  }
+
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    margin-block-start: var(--space-4);
+  }
+
+  .stack li {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--accent);
+    background-color: var(--accent-subtle);
+    padding: 0.1rem var(--space-2);
+    border-radius: 4px;
+  }
+
+  @media (max-width: 620px) {
+    .role {
+      grid-template-columns: 1fr;
+      gap: var(--space-2);
+    }
+
+    .period {
+      padding-block-start: 0;
+    }
+  }
+</style>

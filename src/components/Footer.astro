@@ -1,0 +1,34 @@
+---
+import SocialLinks from './SocialLinks.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-container">
+  <div class="footer-inner">
+    <p>&copy; {year} Josue de Santos</p>
+    <SocialLinks showRss />
+  </div>
+</footer>
+
+<style>
+  footer {
+    margin-block-start: auto;
+    padding-block: var(--space-6);
+  }
+
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    border-top: 1px solid var(--border);
+    padding-block-start: var(--space-5);
+  }
+
+  p {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+</style>
