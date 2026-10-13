@@ -11,14 +11,15 @@ Personal portfolio of **Josue de Santos** — backend software engineer. Built w
 
 ## Commands
 
-| Command           | Action                         |
-| ----------------- | ------------------------------ |
-| `npm install`     | Install dependencies           |
-| `npm run dev`     | Dev server at `localhost:4321` |
-| `npm run build`   | Production build to `./dist/`  |
-| `npm run preview` | Preview the production build   |
-| `npm run check`   | Type-check (`astro check`)     |
-| `npm run format`  | Format with Prettier           |
+| Command                | Action                                    |
+| ---------------------- | ----------------------------------------- |
+| `npm install`          | Install dependencies                      |
+| `npm run dev`          | Dev server at `localhost:4321`            |
+| `npm run build`        | Production build to `./dist/`             |
+| `npm run preview`      | Preview the production build              |
+| `npm run check`        | Type-check (`astro check`)                |
+| `npm run format`       | Format with Prettier                      |
+| `npm run catalog:sync` | Sync the 3D-print catalog from MakerWorld |
 
 ## Content authoring
 
@@ -64,6 +65,10 @@ Post body.
 ### Update the resume
 
 Replace `public/static/media/resume.pdf` and push. The public URL `/static/media/resume.pdf` is stable — do not move it (it's linked from old resumes and external sites). `/resume` redirects to it.
+
+## 3D-print catalog
+
+`/catalogo/` is generated from MakerWorld. Edit `catalog/config.yml` and run the sync — see [CATALOG.md](CATALOG.md).
 
 ## Deployment
 
