@@ -1,0 +1,471 @@
+# =============================================================================
+# 3D-print catalog — the ONLY file you edit by hand.
+#
+# After editing, run the sync (locally `npm run catalog:sync`, or GitHub →
+# Actions → "Sync catalog" → Run workflow). The sync writes
+# catalog/data.generated.json and public/catalogo/img/ — never edit those.
+# Full guide: CATALOG.md
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# contact — where "Solicitar este modelo" sends customers.
+# -----------------------------------------------------------------------------
+contact:
+  # WhatsApp number in international format, digits only (52 = Mexico).
+  whatsapp: '523313404076'
+  email: 'contact@josueds.me'
+
+  # Message templates (Spanish). Placeholders:
+  #   {name} → model name (after overrides)
+  #   {link} → deep link to that model, e.g. https://www.josueds.me/catalogo/#m-123456
+  whatsapp_message: '¡Hola! Me interesa el modelo {name} ({link}). ¿Me podrías dar más información?'
+  email_subject: 'Solicitud de modelo: {name}'
+  email_body: |-
+    ¡Hola!
+
+    Me interesa el modelo {name} ({link}).
+    ¿Me podrías dar más información sobre tamaño, colores y tiempo de entrega?
+
+    Gracias.
+
+# -----------------------------------------------------------------------------
+# collections — one section per entry, in this order on the page.
+#
+#   url          MakerWorld collection URL. For your reference only (MakerWorld
+#                blocks scripted reads of collections, see CATALOG.md).
+#   name         Section title shown on the page (Spanish). Required.
+#   description  Optional short text under the title (Spanish).
+#   models       Models in display order. Each item is a MakerWorld model URL
+#                (https://makerworld.com/en/models/123456-whatever) or just its
+#                numeric ID (123456). A trailing "# comment" is ignored — handy
+#                for remembering what each ID is.
+#
+# Example entry to copy:
+#
+#   - url: https://makerworld.com/en/collections/12345678-my-collection
+#     name: Mi colección
+#     description: Texto opcional.
+#     models:
+#       - https://makerworld.com/en/models/1234567-some-model
+#       - 7654321 # Another model
+# -----------------------------------------------------------------------------
+collections:
+  - url: https://makerworld.com/en/collections/36578716-moving-and-buildable-projects
+    name: Proyectos mecánicos y armables
+    description: Motores, mecanismos y maquetas con piezas que se mueven de verdad.
+    models:
+      - 2741715 # The remontoir gravity escapement mechanism
+      - 1791243 # Mini Crossbow
+      - 2492532 # 500mm Glider - Glue-Free, Clicks Together in 2 min
+      - 474557 # Survival X-Bow
+      - 1163208 # Mecha Tank I
+      - 712809 # SpaceX Raptor 3 Vacuum Rocket Engine 1/10th scale
+      - 77780 # ToroSpin Turbo - Launcher with planetary gearbox
+      - 803543 # ToroSpin - Mono Print-In-Place
+      - 701074 # Wankel engine - motorized
+      - 495215 # Flaming Fox V8
+      - 13806 # 3D Printable Jet Engine
+      - 1581749 # Vega 30
+      - 2147913 # Supermarine Spitfire Mk VIII
+      - 477475 # 3d Printable Turbojet Engine
+      - 1720857 # Handbetriebene Luftschutzsirene
+      - 690541 # Wankel engine - Manual drive
+      - 1201435 # 4 Speed Manual Transmission - Upgraded
+      - 2037114 # Helical LSD (Helical Limited Slip Differential)
+      - 14267 # Engine Model 005
+
+  # Private on MakerWorld — models not added yet (see PR notes).
+  # - url: https://makerworld.com/en/collections/36796729-vehicles-planes-tanks-etc
+  #   name: Vehículos, aviones y tanques
+  #   models: []
+
+  - url: https://makerworld.com/en/collections/36227751-organizers
+    name: Organizadores
+    description: Para la cocina, el taller, la oficina y todo lo que necesite un lugar.
+    models:
+      - 879360 # Magnet organizer (with magnet tubes)
+      - 1414160 # EDC Tape Card
+      - 179516 # Altoids Tin Inserts
+      - 2329319 # Magnet Storage Box | Magnet Holder
+      - 1351554 # Sensu (Japanese Hand Fan) Stand
+      - 1225753 # Cyber Slim wallet / Card holder
+      - 2377795 # Japandi Küchenrollenhalter
+      - 545105 # Underware – Ultimate Cable Management System (MB)
+      - 1889932 # Nuvia – Where plastic forgets it's rigid.
+      - 1557600 # Monstera coaster Plant
+      - 1659764 # Coaster Gyroa
+      - 1958327 # Japanese-Style Coaster & Draining Rack Set
+      - 1614613 # Multi-Purpose Kitchen Utensil Holder
+      - 251174 # cutlery basket drainer
+      - 1873422 # Modular Dual Base Cutlery Drainer Organizer
+      - 2463171 # Premium Ribbed Cutlery Drainer - Self-Draining
+      - 3011090 # Red Solo Cup & Utensil Caddy – w/ Sharpie Slot
+      - 3128751 # Self-Draining Sink Caddy–Detergent,Sponge, Cutlery
+      - 761606 # Gridfinity Adjustable Silverware Holder
+      - 1101623 # Simple Mason Jar Candy Machine
+      - 2054586 # Self-Draining 3D Cutlery Drainer with Inclined
+      - 1995317 # Monstera Napkin Holder
+      - 3047063 # Mount Fuji Napkin Holder
+      - 1374310 # Mid-century Modern Napkin Set
+      - 1879613 # Sliding Lock | Locking Latch
+      - 1032883 # Cable Duct
+      - 1574391 # Electric Wire Wall Mount - Parametric
+      - 2237296 # Oil Funnel Holder / Draining System / Drip Tray
+      - 2539396 # Wall Mount Garden Tool Hanger
+      - 1928049 # grinding discs holder
+      - 949222 # Another Nitrile Glove Box Dispenser
+      - 2502120 # 3, 5, & 6 Inch Orbital Sanding Disc Holder
+      - 1620135 # Bohrer Halter (metrisch und imperial) Ikea Skadis
+      - 189568 # Modular Wrench Holders
+      - 1749163 # Ultimate Modular Socket Organizer
+      - 1320168 # Robust Woodworking Assembly Jigs - Various sizes
+      - 1189856 # Greenhouse Dome Hub (Modular, Scalable, Efficient)
+      - 415969 # Custom Drawer Divider Brackets
+      - 3063873 # Benchworks 2.0 - Modular bench building system
+      - 1496122 # Saw Horse Folding Bracket
+      - 1066559 # tiroirs pour bobine sunlu V2
+      - 2172346 # Infinity Spool Tower The Ultimate Storage Solution
+      - 1321676 # Vassoio portaoggetti geometrico con bordi V2
+      - 2787968 # Rolling Station ALL-IN-ONE
+      - 2155494 # Clip for Socks - Vileda Drying Rack
+      - 1028236 # Filament Rack System (Spool & Filament Holder)
+      - 463249 # Gridfinity Rugged Case "Light" R3 - 150+ SIZES
+      - 1334981 # Fishfinity Tackle Box
+      - 1267055 # Hat Hanger
+      - 3031285 # Wall Mount Hat Holder
+      - 856489 # 大型收纳篮 可堆叠的 (stackable storage basket)
+      - 2508983 # 可堆叠大号方形收纳筐 (stackable square basket)
+      - 2268549 # USB cable organizer Box tray
+      - 3335950 # Adjustable Shelf Support (Telescoping)
+      - 1721852 # Teeny Tote Bin + Mini HDX Tote Bin + Racks
+      - 820310 # Pure - Customizable Modular Display Shelf
+      - 1033569 # Stackable shelf organizer
+      - 1871603 # Modular and re-usable plywood furniture connectors
+      - 206120 # Shelving bracket system
+      - 2630102 # Parametric Pinch 3D joint - Geometric version
+      - 935859 # 可调高度置物架 height-adjustable shelf
+      - 676113 # Strong Modular Customizable Shelf Rack
+      - 627852 # Simple Rack | einfaches Regal
+      - 390314 # Trash bag holder
+      - 520956 # Eternity Labs Stacking Storage Basket 140x200mm
+
+  - url: https://makerworld.com/en/collections/36226146-a2l
+    name: Accesorios para impresoras 3D
+    description: Mejoras y refacciones para impresoras Bambu Lab (A1, A2L, AMS) y manejo de filamento.
+    models:
+      - 466551 # Bambu A1 Vibration Dampening Feet
+      - 2329319 # Magnet Storage Box | Magnet Holder
+      - 1752938 # HX8 Magnet Pen Precise Control
+      - 508247 # Bambu Spool - UltraLight & UltraFast
+      - 2194826 # Bambu Lab 3D Printer Bed Scraper 2026 OEM Version
+      - 1913880 # anti vibration feet that realy work
+      - 459851 # A1 / A1 Mini Anti-Vibration Feet / Pad
+      - 417509 # HULA v1.0 Anti-Vibration Feet for 3D Printers
+      - 781234 # UPDATED: Simple Filament Respooler For Drill
+      - 1970110 # AMS 2 Pro Stackable gridfinity Expansion
+      - 3126770 # TPU Direct Guide for AMS 2
+      - 1286770 # AMS 2 Pro Saver Snag Cutter V5.0
+      - 1286669 # AMS 2 Pro Stacker
+      - 1307105 # AMS 2 Pro Funnel Saver
+      - 1275614 # AMS 2 Pro Funnel Saver (For AMS 2, H2D)
+      - 1365220 # AMS 2 PRO Desiccant Box Holder
+      - 1443118 # AMS Speeder - Reduce filament loading time
+      - 2837333 # Strong Easy Fast Spool Respooler (100% printed)
+      - 195677 # Spool Drill Winder
+      - 448008 # LTS Respooler - Motorized Filament Winder
+      - 1119119 # bambu lab spool (Replica of original spools)
+      - 90586 # AMS lite Bracket for A1 - GRIP
+      - 707336 # AMS Lite A1 Top Mount - No Tilt Remix
+      - 2912724 # A2L-AMS一代&AMS 2 Pro置顶方案 (AMS top mount)
+      - 918040 # A1 Side Storage - now with optional handle!
+      - 2910771 # Ventilation and Dust Cover
+      - 1284797 # Filament spool gauge
+      - 2771974 # RFID感應晶片重複使用 (RFID tag reuse)
+      - 486153 # Ultimate Filament Spool Enclosure - TYPE 01
+      - 962206 # Cereal box dry filament storage
+      - 146046 # Filament Clip for Bambu spools
+      - 99478 # CLIPPY - Filament clip
+      - 19535 # BLV - AMS / AMS 2 Riser
+      - 461476 # AMS lite PTFE connector
+      - 905294 # A1 / A1 mini hotend maintenance tool
+      - 79328 # PTFE Tube Remover V2.2 for the A1
+      - 1596025 # PTFE & Cable Support Guide Snap On A1 A2L AMS
+      - 3355020 # Insane anti-vibration pad better than gyroid
+      - 1077456 # A1 / A1 Mini Lube Nozzle - Y-Axis Lubrication
+      - 3178269 # Bambulab A2L Nozzle Wiper Poop Bin
+      - 386963 # Build Plate Cleaner
+      - 2905082 # A2L PTFE Tube Positioning Guide
+      - 2886640 # 拓竹 A2L 大容量竹屎盒 (A2L waste bin)
+      - 1561190 # AMS Lite 4.0
+      - 1256248 # AMS Lite 2.0
+      - 2905074 # A2L 4-pin Cable Organizer for AMS lite Top Mount
+      - 2878115 # A2L Heatbed & Plate Guard
+      - 92486 # AMS Lite Top Mount for A1 & A2L
+
+  - url: https://makerworld.com/en/collections/36227225-tools
+    name: Herramientas
+    description: Prensas, escuadras, guías y utilidades para el taller y la casa.
+    models:
+      - 2393010 # Emergency door wedge
+      - 1349623 # Ratchet Strap Winder V2
+      - 2130830 # Vacuum Bag Pump Station
+      - 49962 # Tac Wedge
+      - 233465 # The Ultimate Carabiner 2.0: Refined
+      - 1157143 # Triple Pulley Block (3x608) – Ascent Zero 3
+      - 819243 # Strong Printable Clamp
+      - 3156374 # 100% 3D Printed Yarn Winder
+      - 818144 # Fensterhaken für Dekorationen
+      - 1225753 # Cyber Slim wallet / Card holder
+      - 1478952 # Painter's Pyramid - Stackable
+      - 2760568 # Parametric Nut Caps & Knobs System UPDATE
+      - 3138051 # RAGTIME - Utility Blade version
+      - 610555 # Speed Square
+      - 2049061 # Dual Protractor
+      - 228859 # Ultimate Square (Metric)
+      - 1059433 # Center marker
+      - 558606 # Parallel Marking Gauge Mk II
+      - 732269 # 3-Axis Wood/Metal Working Square
+      - 2752057 # 3D Printable Vacuum Former
+      - 2614550 # Vacuum former
+      - 1879613 # Sliding Lock | Locking Latch
+      - 2969056 # Parametric O-Ring Generator
+      - 2955666 # VentForge — Parametric Vents, Covers & Diffusers
+      - 2556521 # Reusable Adjustable Cable Tie (Quick Release)
+      - 1139080 # Interchangeable Sanding Contour Blocks
+      - 2583964 # Corner Clamp 90°
+      - 3063873 # Benchworks 2.0 - Modular bench building system
+      - 1803949 # Cabinet Hardware Jig
+      - 704522 # Fully 3D-Printed Kant-Twist Style Clamp
+      - 1382348 # Fidget Quick-Grip Trigger Clamp
+      - 2084615 # Mitre Protractor
+      - 825644 # Stealth Press 1S — heat set insert press
+      - 1496122 # Saw Horse Folding Bracket
+      - 176297 # Corner Clamp for Woodworking
+      - 860190 # 小台钳 (small bench vise)
+      - 29470 # Clamp anything! Fractal vise
+      - 3148048 # BUDGET DIY Router Sled
+      - 1155818 # Whopper Plopper fishing lure (one piece)
+      - 1402284 # Complete fishing set with Reel & Rod - Fish8r
+      - 2577626 # My Other Hand
+      - 2310347 # Utilty Knife MK2
+      - 2365853 # SIG SAUER K320 Inspired Folding Utility Knife
+      - 1791243 # Mini Crossbow
+      - 2292319 # Heavy-Duty Wall Hook / Utility Bracket Compact
+      - 951657 # Quick Access Caliper Stand - QACS
+      - 68606 # Metric Allen Wrench Holder
+      - 1903873 # Allen key handles - Print in Place (Metric)
+      - 1331824 # Fisherman's KitCard - Full set Birthday card
+      - 922296 # caliper battery saver
+      - 2901625 # FLYCATRAZ - Fruchtfliegenfalle (fruit fly trap)
+      - 1013142 # Hotend nozzle cleaning brush for Bambulab printers
+      - 413220 # Bed Scraper XL
+      - 3335950 # Adjustable Shelf Support (Telescoping)
+      - 386963 # Build Plate Cleaner
+      - 3338931 # T-joint Clamp with Screw Jig
+      - 194672 # Whetstone Knife Sharpening Aid
+      - 558636 # Knife sharpening guide
+      - 1175423 # Overengineered Knife Sharpening Jig
+      - 2221796 # Knife Sharpening Jig for Whetstones (Gridfinity)
+      - 1802354 # NEW Sanding Block With Tensioner
+
+  # Private on MakerWorld — models not added yet (see PR notes).
+  # - url: https://makerworld.com/en/collections/37213459-business
+  #   name: Negocios
+  #   models: []
+
+  # Private on MakerWorld — models not added yet (see PR notes).
+  # - url: https://makerworld.com/en/collections/37292418-xmas
+  #   name: Navidad
+  #   models: []
+
+  - url: https://makerworld.com/en/collections/36541869-thermoformed
+    name: Termoformados
+    models:
+      - 2133814 # Thermoformed Christmas tree bauble
+      - 3257455 # Thermoformed happy ghosts
+
+  - url: https://makerworld.com/en/collections/36542272-figures
+    name: Figuras
+    description: Personajes, esculturas y figuras articuladas.
+    models:
+      - 2264931 # Shenlong Dragon
+      - 2865166 # WALL-E Robot - Articulated
+      - 620832 # Higher Quality Wall-E Model
+      - 3391530 # Climbing Ledge Specials Ops Soldiers!
+      - 152175 # Rose Bear
+      - 2796068 # Goku Bust Figure Dragon Ball
+      - 2545832 # Chopper Monster Point - One Piece
+      - 2415809 # Zoro Roronoa - One Piece
+      - 2606058 # Luffy Gear 5 - One Piece
+      - 2845609 # The source - Dynamic Sculpture by Luo Li Rong
+      - 2716330 # 5g lizard - articulated lizard
+      - 1314470 # Articulated Cute Octopus
+      - 2647505 # Hyper Detailed Tyrannosaurus Rex
+      - 1388568 # Realistic Tooth Keychain
+      - 3216131 # 3 1/2 ft tall Alien Greeter
+      - 3334143 # Tiny Flexi Skeleton
+      - 1851764 # Angry Tooth – Cavity Crusher
+      - 1723143 # Sea Otter with Shell
+      - 1861699 # Toothy the Happy Molar
+      - 1081500 # Articulated Tooth
+      - 3245667 # Flexi Alligator Snapping Turtle & Keychain
+
+  - url: https://makerworld.com/en/collections/36733568-kit-cards
+    name: Kit cards para armar
+    description: Maquetas que se imprimen en una sola placa y se arman sin pegamento.
+    models:
+      - 763297 # Rover Kit Card - Perseverance
+      - 2527287 # Pick-Up J79 Single Cab - Kit Card
+      - 2789649 # Panzer IV Tank Ausf.H 1/35
+      - 1533631 # Jagdpanzer E100 1:35
+      - 2167962 # Leopard 2 AV Prototype 1/35
+      - 1866607 # USS Perry-class Frigate 1/350
+      - 2032446 # SA-6 Air Defence Missile Launcher 1/35
+      - 1810728 # Tiger II Heavy Tank 1/35
+      - 2280071 # Leopard 2 A7 1/35
+      - 1582797 # T-34/85 1:35
+      - 1678913 # Tiger 1 Kit Card
+      - 1640522 # M1A1 Abrams 1:35
+      - 1607303 # M4A3E8 Sherman FURY 1:35
+      - 1512740 # Tiger I Heavy Tank 1:35
+      - 679345 # T-34-85 Tank Kit Card 1:64
+      - 1928908 # Abrams X 1/35
+      - 1209795 # Army Truck Kit Card
+      - 223303 # Jeep Kit Card
+      - 2768385 # F-22 Raptor Plane Kit Card
+      - 1493317 # P-51D Desk Fan
+      - 1653693 # B-29 Plane Kit Card
+      - 1439243 # V-22 Tiltrotor Kit Card
+      - 1180634 # AH-64 Helicopter Kit
+      - 967133 # F16 Plane Kit Card
+      - 242106 # B52 Plane Kit Card
+      - 2377927 # Ferrari F40 & Competizione kit card
+      - 436445 # A10 Plane Kit Card
+      - 652841 # Dummy 13 | V1 Kit Card
+      - 1032328 # F-15 Plane Kit Card
+      - 1156265 # F-14 TOMCAT Plane Kit Card
+      - 1373758 # Star Wars AT-AT Articulated Model
+      - 415603 # Forklift Kit Card with Palette
+      - 1331824 # Fisherman's KitCard - Full set Birthday card
+      - 13745 # Kit Card B1 Battle Droid Star Wars
+      - 2964241 # GT-R R34 Mini "Kit Card"
+      - 22259 # AT-ST Walker Kit Card
+      - 2170109 # C-17 Plane Kit Card
+      - 250454 # Tesla Cybertruck Kit Card
+      - 1866618 # Wheel loader kit card
+      - 223450 # Darth V. Tie Advanced X1 Kit Card
+      - 588488 # Jimny - kit card
+      - 1471294 # Formula 1 Kit Card
+      - 1283835 # R5 Turbo2 - Kit Card
+      - 218462 # Golf MK1 - Kit Card
+      - 376939 # DeLorean DMC-12 - Kit card
+      - 1702633 # X-Wing Kit Card
+      - 698950 # F117 Plane Kit Card
+      - 199176 # SR-71 Plane Kit Card
+
+  - url: https://makerworld.com/en/collections/36644834-musical-instruments
+    name: Instrumentos musicales
+    description: Silbatos, flautas y percusiones que suenan de verdad.
+    models:
+      - 745569 # Steam Engine Whistle - Functional with sound
+      - 2810506 # Bass Tube (Melody version)
+      - 1031909 # Steam Train Whistle
+      - 1128443 # Tube Drum - Tubulum (5 Tubes)
+      - 562104 # Infinity Whistle! 12 Tone
+      - 471686 # TeleTunes Octo Tune Major Flute / Whistle (F#)
+      - 13026 # Whistle Pan flute
+
+  # Private on MakerWorld — models not added yet (see PR notes).
+  # - url: https://makerworld.com/en/collections/37211787-animals
+  #   name: Animales
+  #   models: []
+
+  - url: https://makerworld.com/en/collections/37278514-toys
+    name: Juguetes
+    models:
+      - 613408 # Full 3D printed Bow
+      - 1169267 # Modular Blowgun
+
+  - url: https://makerworld.com/en/collections/36229570-clips
+    name: Clips y pinzas
+    models:
+      - 99478 # CLIPPY - Filament clip
+      - 708853 # The Ultimate 3D Printed Clip
+      - 813980 # Bag Clips (Different sizes, Print in place)
+      - 1182676 # DESIGN BAG CLIP
+      - 1101226 # Mini Bag Clip
+
+  # Private on MakerWorld — models not added yet (see PR notes).
+  # - url: https://makerworld.com/en/collections/37214149-chess
+  #   name: Ajedrez
+  #   models: []
+
+  - url: https://makerworld.com/en/collections/36803668-key-holders
+    name: Portallaves de pared
+    description: Ganchos para llaves, muchos con siluetas de autos clásicos.
+    models:
+      - 1081242 # Elephant (Wall Hook)
+      - 419998 # KeyCarry - EDC Key Organizer
+      - 2911312 # 911 turbo (930) key hanger
+      - 3210052 # Porta-Chaves de Parede Opala SS
+      - 3019126 # Porte-clés Dodge Challenger
+      - 2839551 # GT3 rs key hanger V2
+      - 2993620 # Porte-clés Bmw M3 G80
+      - 2577448 # Ford Mustang Schlüsselhalter Front Remix
+      - 2061769 # Batmobile key hanger
+      - 2336087 # Beetle key hanger
+      - 2527810 # Mustang gt key hanger
+      - 1556469 # Delorean key hanger
+      - 1840430 # Supra Mk4 key hanger
+      - 1599531 # R35 GTR Key hanger
+      - 1515579 # e30 M3 Key Hanger
+      - 1271284 # F40 Key Hanger
+      - 2608443 # GT3 rs key hanger
+
+  - url: https://makerworld.com/en/collections/37213615-keychain
+    name: Llaveros
+    models:
+      - 43967 # Akatsuki Keychain - Naruto
+
+  - url: https://makerworld.com/en/collections/36238834-plants
+    name: Plantas y jardín
+    models:
+      - 2725943 # Parametric Nursery Pot | Liner Pot Customizer
+
+  - url: https://makerworld.com/en/collections/36227615-containers
+    name: Contenedores
+    models:
+      - 2361460 # Threaded Lid Generator
+      - 1317369 # Drying rack, raised
+      - 3009588 # 大号网面收纳盒 (large mesh storage box, reinforced)
+      - 1651926 # Plant/Herb Drying Rack (Box)
+      - 2612089 # 大号网面收纳盒 (large mesh storage box)
+      - 1232711 # Outdoor Container - Robust and Waterproof
+      - 716614 # Container Family
+      - 1209712 # Functional bag clip screw
+
+  - url: https://makerworld.com/en/collections/36227429-gridfinity
+    name: Gridfinity
+    description: Piezas compatibles con el sistema modular de organización Gridfinity.
+    models:
+      - 856330 # Gridfinity Ruler MKII [7 Unit Length]
+
+# -----------------------------------------------------------------------------
+# overrides — optional per-model tweaks, keyed by MakerWorld model ID
+# (the number in https://makerworld.com/en/models/<ID>-...).
+#
+#   name         Replaces the MakerWorld title on the page.
+#   description  Replaces the MakerWorld description (write it in Spanish).
+#   hidden       true → the model is not shown anywhere on the page.
+#
+# Titles/descriptions are never auto-translated; use these to localize.
+# -----------------------------------------------------------------------------
+overrides:
+  2741715:
+    name: Mecanismo de escape por gravedad (remontoir)
+  1791243:
+    name: Mini ballesta
+  # 1234567:
+  #   name: Nombre en español
+  #   description: Descripción en español.
+  #   hidden: true
