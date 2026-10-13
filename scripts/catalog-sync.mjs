@@ -186,7 +186,6 @@ async function fetchModel(id) {
     description: htmlToText(d.summary),
     designer: d.designCreator?.name ?? '',
     url: `https://makerworld.com/en/models/${d.id}${d.slug ? `-${d.slug}` : ''}`,
-    updatedAt: d.updateTime ?? null,
     sources,
   };
 }
