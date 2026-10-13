@@ -5,11 +5,19 @@ interface Props {
   ogImage?: string;
   type?: 'website' | 'article';
   noindex?: boolean;
+  locale?: string;
 }
 
 const SITE_NAME = 'Josue de Santos';
 
-const { title, description, ogImage = '/og-default.png', type = 'website', noindex = false } = Astro.props;
+const {
+  title,
+  description,
+  ogImage = '/og-default.png',
+  type = 'website',
+  noindex = false,
+  locale,
+} = Astro.props;
 
 const fullTitle = title === SITE_NAME ? title : `${title} — ${SITE_NAME}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -27,6 +35,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
 <meta property="og:url" content={canonical} />
 <meta property="og:image" content={ogImageURL} />
 <meta property="og:site_name" content={SITE_NAME} />
+{locale && <meta property="og:locale" content={locale} />}
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={fullTitle} />

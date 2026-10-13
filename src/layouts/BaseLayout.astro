@@ -10,13 +10,26 @@ interface Props {
   ogImage?: string;
   type?: 'website' | 'article';
   noindex?: boolean;
+  /** Page language; the site default is English. */
+  lang?: string;
+  /** Text of the skip link, localized with `lang`. */
+  skipLabel?: string;
 }
 
-const { title, description, ogImage, type, noindex } = Astro.props;
+const {
+  title,
+  description,
+  ogImage,
+  type,
+  noindex,
+  lang = 'en',
+  skipLabel = 'Skip to content',
+} = Astro.props;
+const ogLocale = lang === 'en' ? undefined : lang.replace('-', '_');
 ---
 
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html {lang} data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -31,7 +44,7 @@ const { title, description, ogImage, type, noindex } = Astro.props;
       href={new URL('rss.xml', Astro.site)}
     />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <SEO {title} {description} {ogImage} {type} {noindex} />
+    <SEO {title} {description} {ogImage} {type} {noindex} locale={ogLocale} />
     <slot name="head" />
     <script is:inline>
       // Resolve theme before first paint to avoid a flash of the wrong theme.
@@ -48,7 +61,7 @@ const { title, description, ogImage, type, noindex } = Astro.props;
     </script>
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main">{skipLabel}</a>
     <Header />
     <main id="main" class="site-container">
       <slot />
