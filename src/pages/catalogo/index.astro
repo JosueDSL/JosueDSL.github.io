@@ -1,0 +1,817 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { collections, loadContact, ogImage } from '../../lib/catalog';
+
+const contact = loadContact();
+const pageUrl = new URL('/catalogo/', Astro.site).href;
+const modelCount = new Set(collections.flatMap((c) => c.models.map((m) => m.id))).size;
+
+// Each model gets its anchor id once, on its first card, so `#m-<id>` also
+// scrolls to it when JS is unavailable.
+const anchored = new Set<string>();
+const anchorFor = (id: string) => {
+  if (anchored.has(id)) return undefined;
+  anchored.add(id);
+  return `m-${id}`;
+};
+
+const clientConfig = {
+  pageUrl,
+  whatsapp: contact.whatsapp,
+  email: contact.email,
+  whatsappMessage: contact.whatsappMessage,
+  emailSubject: contact.emailSubject,
+  emailBody: contact.emailBody,
+};
+---
+
+<BaseLayout
+  title="Catálogo de impresión 3D"
+  description={`Modelos impresos en 3D bajo pedido: figuras, organizadores, herramientas, maquetas y más. Explora ${modelCount} modelos y solicita el tuyo por WhatsApp o correo.`}
+  ogImage={ogImage?.src}
+  lang="es-MX"
+  skipLabel="Saltar al contenido"
+>
+  <div class="page-header">
+    <p class="eyebrow">Impresión 3D</p>
+    <h1>Catálogo</h1>
+    <p class="intro">
+      Cada pieza se imprime bajo pedido, especialmente para ti. Explora las colecciones, abre el modelo que te
+      guste y toca <strong>«Solicitar este modelo»</strong> para escribirme por WhatsApp o por correo. Te confirmo
+      tamaño, colores y tiempo de entrega.
+    </p>
+  </div>
+
+  <div class="catalog">
+    <nav class="collection-nav" aria-label="Colecciones">
+      <ul>
+        {
+          collections.map((c) => (
+            <li>
+              <a href={`#${c.slug}`} data-section={c.slug}>
+                {c.name}
+                <span class="count">{c.models.length}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="sections">
+      {
+        collections.map((c) => (
+          <section class="collection" id={c.slug} aria-labelledby={`${c.slug}-title`}>
+            <h2 id={`${c.slug}-title`}>{c.name}</h2>
+            {c.description && <p class="collection-description">{c.description}</p>}
+            <ul class="grid">
+              {c.models.map((m) => (
+                <li>
+                  <a
+                    class="card"
+                    href={`#m-${m.id}`}
+                    id={anchorFor(m.id)}
+                    data-model={m.id}
+                    data-collection={c.name}
+                  >
+                    <img
+                      src={m.thumb.src}
+                      width={m.thumb.width}
+                      height={m.thumb.height}
+                      alt={m.name}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <span class="card-name">{m.name}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+  </div>
+
+  <dialog class="model-dialog" id="model-dialog" aria-labelledby="md-name">
+    <div class="md-body">
+      <button class="md-close" type="button" aria-label="Cerrar">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M6 6l12 12M18 6 6 18"></path>
+        </svg>
+      </button>
+
+      <div class="md-media">
+        <div class="md-stage">
+          <img id="md-image" alt="" />
+          <button class="md-nav md-prev" type="button" aria-label="Imagen anterior">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m15 18-6-6 6-6"></path>
+            </svg>
+          </button>
+          <button class="md-nav md-next" type="button" aria-label="Imagen siguiente">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="md-dots" role="group" aria-label="Imágenes del modelo"></div>
+      </div>
+
+      <div class="md-info">
+        <p class="eyebrow" id="md-collection"></p>
+        <h2 id="md-name"></h2>
+        <p class="md-designer">Diseño de: <span id="md-designer"></span></p>
+        <p class="md-description" id="md-description"></p>
+        <div class="md-actions">
+          <a class="btn-primary" id="md-whatsapp" target="_blank" rel="noopener noreferrer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.47-1.76-1.64-2.05-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.6-.91-2.2-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.05 21.5h-.01a9.4 9.4 0 0 1-4.8-1.32l-.34-.2-3.57.94.95-3.48-.22-.36a9.43 9.43 0 1 1 7.99 4.42zm8.03-17.46A11.32 11.32 0 0 0 12.05.72C5.8.72.7 5.8.7 12.07c0 2 .52 3.95 1.52 5.67L.6 23.65l6.05-1.59a11.3 11.3 0 0 0 5.4 1.38h.01c6.26 0 11.35-5.09 11.36-11.35 0-3.03-1.18-5.89-3.33-8.03z"
+              ></path>
+            </svg>
+            Solicitar este modelo
+          </a>
+          <a class="md-mail" id="md-email">Solicitar por correo</a>
+        </div>
+        <p class="md-note">
+          Impreso bajo pedido. Escríbeme y te confirmo tamaño, colores y tiempo de entrega.
+        </p>
+      </div>
+    </div>
+  </dialog>
+
+  <script type="application/json" id="catalog-config" set:html={JSON.stringify(clientConfig)} />
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding-block: var(--space-7) var(--space-5);
+  }
+
+  h1 {
+    font-size: var(--text-3xl);
+    margin-block: var(--space-2) var(--space-3);
+  }
+
+  .intro {
+    max-width: var(--content-width);
+    color: var(--text-muted);
+  }
+
+  .intro strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* --- Layout: chip bar on small screens, sidebar on wide ones --- */
+  .catalog {
+    display: grid;
+    /* minmax(0, …) keeps the scrolling chip row from widening the page. */
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-5);
+    padding-block-end: var(--space-8);
+  }
+
+  .collection-nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    margin-inline: calc(var(--space-5) * -1);
+    padding: var(--space-2) var(--space-5);
+    background-color: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .collection-nav ul {
+    display: flex;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+
+  .collection-nav ul::-webkit-scrollbar {
+    display: none;
+  }
+
+  .collection-nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    white-space: nowrap;
+    transition:
+      color var(--transition),
+      background-color var(--transition),
+      border-color var(--transition);
+  }
+
+  .collection-nav a:hover {
+    color: var(--text);
+    text-decoration: none;
+    background-color: var(--bg-raised);
+  }
+
+  .collection-nav a[aria-current='true'] {
+    color: var(--text);
+    border-color: var(--accent);
+    background-color: var(--accent-subtle);
+  }
+
+  .count {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+
+  .collection {
+    /* Clear the sticky chip bar when jumping to a section. */
+    scroll-margin-top: 4rem;
+  }
+
+  .collection + .collection {
+    margin-block-start: var(--space-7);
+  }
+
+  @media (min-width: 64rem) {
+    .catalog {
+      grid-template-columns: 13rem minmax(0, 1fr);
+      gap: var(--space-6);
+      align-items: start;
+    }
+
+    .collection-nav {
+      top: var(--space-5);
+      margin: 0;
+      padding: 0;
+      border: none;
+      max-height: calc(100dvh - var(--space-6));
+      overflow-y: auto;
+    }
+
+    .collection-nav ul {
+      flex-direction: column;
+      gap: 2px;
+      overflow: visible;
+    }
+
+    .collection-nav a {
+      display: flex;
+      justify-content: space-between;
+      border-color: transparent;
+      border-radius: var(--radius);
+      white-space: normal;
+      line-height: 1.35;
+      padding-block: var(--space-2);
+    }
+
+    .collection {
+      scroll-margin-top: var(--space-5);
+    }
+  }
+
+  /* --- Sections and grid --- */
+  .collection h2 {
+    font-size: var(--text-2xl);
+  }
+
+  .collection-description {
+    margin-block-start: var(--space-2);
+    max-width: var(--content-width);
+    color: var(--text-muted);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4) var(--space-3);
+    list-style: none;
+    padding: 0;
+    margin-block-start: var(--space-4);
+  }
+
+  @media (min-width: 40rem) {
+    .grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-5) var(--space-4);
+    }
+  }
+
+  @media (min-width: 52rem) and (max-width: 63.99rem) {
+    .grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .card {
+    display: block;
+    color: var(--text);
+    border-radius: var(--radius-lg);
+  }
+
+  .card:hover {
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  .card img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    background-color: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    transition:
+      border-color var(--transition),
+      transform var(--transition);
+  }
+
+  .card:hover img {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .card:focus-visible {
+    outline-offset: 4px;
+  }
+
+  .card-name {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    margin-block-start: var(--space-2);
+    font-size: var(--text-sm);
+    line-height: 1.4;
+  }
+
+  /* --- Modal --- */
+  .model-dialog {
+    width: min(64rem, 100% - 2 * var(--space-4));
+    max-height: calc(100dvh - 2 * var(--space-4));
+    margin: auto;
+    padding: 0;
+    color: var(--text);
+    background-color: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .model-dialog::backdrop {
+    background-color: rgb(0 0 0 / 0.72);
+  }
+
+  .model-dialog[open] {
+    animation: dialog-in 160ms ease-out;
+  }
+
+  @keyframes dialog-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+
+  .md-body {
+    position: relative;
+    display: grid;
+    max-height: calc(100dvh - 2 * var(--space-4));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  @media (min-width: 48rem) {
+    .md-body {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    }
+  }
+
+  .md-close {
+    position: absolute;
+    top: var(--space-2);
+    right: var(--space-2);
+    z-index: 2;
+  }
+
+  .md-close,
+  .md-nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    color: var(--text);
+    background-color: color-mix(in srgb, var(--bg) 80%, transparent);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color var(--transition);
+  }
+
+  .md-close:hover,
+  .md-nav:hover {
+    background-color: var(--bg-raised);
+  }
+
+  .md-media {
+    background-color: var(--bg-raised);
+  }
+
+  .md-stage {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    max-height: 70dvh;
+    margin-inline: auto;
+    touch-action: pan-y;
+  }
+
+  .md-stage img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .md-nav {
+    position: absolute;
+    top: 50%;
+    translate: 0 -50%;
+  }
+
+  .md-prev {
+    left: var(--space-2);
+  }
+
+  .md-next {
+    right: var(--space-2);
+  }
+
+  .md-dots {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-1);
+    padding: var(--space-2);
+  }
+
+  .md-dots button {
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .md-dots button::before {
+    content: '';
+    display: block;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin: auto;
+    border-radius: 999px;
+    background-color: var(--border);
+    transition: background-color var(--transition);
+  }
+
+  .md-dots button[aria-current='true']::before {
+    background-color: var(--accent);
+  }
+
+  .md-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-5);
+  }
+
+  .md-info h2 {
+    font-size: var(--text-2xl);
+    padding-inline-end: var(--space-6);
+  }
+
+  @media (min-width: 48rem) {
+    .md-info {
+      padding-block-start: var(--space-7);
+    }
+  }
+
+  .md-designer {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+
+  .md-description {
+    white-space: pre-line;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+
+  .md-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3) var(--space-5);
+    margin-block-start: var(--space-2);
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
+    font-weight: 600;
+    color: var(--bg);
+    background-color: var(--accent);
+    border-radius: var(--radius);
+    transition: background-color var(--transition);
+  }
+
+  .btn-primary:hover {
+    color: var(--bg);
+    background-color: var(--accent-hover);
+    text-decoration: none;
+  }
+
+  .md-mail {
+    font-size: var(--text-sm);
+  }
+
+  .md-note {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+</style>
+
+<script>
+  type ModelDetail = {
+    name: string;
+    description: string;
+    designer: string;
+    images: [string, number, number][];
+  };
+  type ClientConfig = {
+    pageUrl: string;
+    whatsapp: string;
+    email: string;
+    whatsappMessage: string;
+    emailSubject: string;
+    emailBody: string;
+  };
+
+  const config: ClientConfig = JSON.parse(document.getElementById('catalog-config')!.textContent!);
+  const dialog = document.getElementById('model-dialog') as HTMLDialogElement;
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+  const image = $<HTMLImageElement>('md-image');
+  const dots = dialog.querySelector<HTMLElement>('.md-dots')!;
+  const prevBtn = dialog.querySelector<HTMLButtonElement>('.md-prev')!;
+  const nextBtn = dialog.querySelector<HTMLButtonElement>('.md-next')!;
+
+  // --- Model data (fetched once, on first need) ---
+  let modelsPromise: Promise<Record<string, ModelDetail>> | null = null;
+  const loadModels = () =>
+    (modelsPromise ??= fetch('/catalogo/modelos.json')
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+      .then((d) => d.models)
+      .catch((err) => {
+        modelsPromise = null;
+        throw err;
+      }));
+
+  // --- Request links ---
+  const fill = (template: string, name: string, link: string) =>
+    template.replaceAll('{name}', name).replaceAll('{link}', link);
+
+  function setRequestLinks(id: string, name: string) {
+    const link = `${config.pageUrl}#m-${id}`;
+    $<HTMLAnchorElement>('md-whatsapp').href =
+      `https://wa.me/${config.whatsapp}?text=${encodeURIComponent(fill(config.whatsappMessage, name, link))}`;
+    $<HTMLAnchorElement>('md-email').href =
+      `mailto:${config.email}?subject=${encodeURIComponent(fill(config.emailSubject, name, link))}` +
+      `&body=${encodeURIComponent(fill(config.emailBody, name, link))}`;
+  }
+
+  // --- Gallery ---
+  let current: { id: string; model: ModelDetail; index: number } | null = null;
+
+  function showImage(index: number) {
+    if (!current) return;
+    const images = current.model.images;
+    current.index = (index + images.length) % images.length;
+    const [src, width, height] = images[current.index];
+    image.src = src;
+    image.width = width;
+    image.height = height;
+    image.alt =
+      images.length > 1
+        ? `${current.model.name} (imagen ${current.index + 1} de ${images.length})`
+        : current.model.name;
+    dots
+      .querySelectorAll('button')
+      .forEach((b, i) => b.setAttribute('aria-current', String(i === current!.index)));
+    // Warm the next image so arrowing through feels instant.
+    if (images.length > 1) new Image().src = images[(current.index + 1) % images.length][0];
+  }
+
+  function renderDots(count: number) {
+    dots.replaceChildren(
+      ...Array.from({ length: count }, (_, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('aria-label', `Imagen ${i + 1} de ${count}`);
+        b.addEventListener('click', () => showImage(i));
+        return b;
+      }),
+    );
+    const multiple = count > 1;
+    dots.hidden = !multiple;
+    prevBtn.hidden = !multiple;
+    nextBtn.hidden = !multiple;
+  }
+
+  prevBtn.addEventListener('click', () => showImage((current?.index ?? 0) - 1));
+  nextBtn.addEventListener('click', () => showImage((current?.index ?? 0) + 1));
+
+  // --- Open / close ---
+  let returnFocusTo: HTMLElement | null = null;
+  let pushedHistory = false;
+
+  const idFromHash = () => location.hash.match(/^#m-(\d+)$/)?.[1] ?? null;
+  const firstCard = (id: string) => document.querySelector<HTMLAnchorElement>(`.card[data-model="${id}"]`);
+
+  async function openModel(id: string, card: HTMLAnchorElement | null, push: boolean) {
+    let models: Record<string, ModelDetail>;
+    try {
+      models = await loadModels();
+    } catch {
+      // Data unreachable: fall back to the card's position on the page.
+      card?.scrollIntoView({ block: 'center' });
+      return;
+    }
+    const model = models[id];
+    card ??= firstCard(id);
+    if (!model || !card) return;
+
+    current = { id, model, index: 0 };
+    $('md-name').textContent = model.name;
+    $('md-collection').textContent = card.dataset.collection ?? '';
+    $('md-designer').textContent = model.designer;
+    $('md-designer').parentElement!.hidden = !model.designer;
+    $('md-description').textContent = model.description;
+    renderDots(model.images.length);
+    showImage(0);
+    setRequestLinks(id, model.name);
+
+    if (push) {
+      history.pushState({ model: id }, '', `#m-${id}`);
+      pushedHistory = true;
+    }
+    if (!dialog.open) {
+      returnFocusTo = card;
+      document.documentElement.style.overflow = 'hidden';
+      dialog.showModal();
+    }
+  }
+
+  dialog.addEventListener('close', () => {
+    document.documentElement.style.overflow = '';
+    current = null;
+    image.removeAttribute('src');
+    if (idFromHash()) {
+      // Drop the model hash: step back if we added it, otherwise rewrite it away.
+      if (pushedHistory) history.back();
+      else history.replaceState(null, '', location.pathname + location.search);
+    }
+    pushedHistory = false;
+    returnFocusTo?.focus({ preventScroll: false });
+    returnFocusTo = null;
+  });
+
+  dialog.querySelector('.md-close')!.addEventListener('click', () => dialog.close());
+
+  // Clicks on the ::backdrop land on the <dialog> element itself.
+  dialog.addEventListener('click', (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+
+  dialog.addEventListener('keydown', (e) => {
+    if (!current || current.model.images.length < 2) return;
+    if (e.key === 'ArrowLeft') showImage(current.index - 1);
+    else if (e.key === 'ArrowRight') showImage(current.index + 1);
+    else return;
+    e.preventDefault();
+  });
+
+  // Swipe between images on touch screens.
+  let touchX: number | null = null;
+  const stage = dialog.querySelector<HTMLElement>('.md-stage')!;
+  stage.addEventListener('touchstart', (e) => (touchX = e.touches[0].clientX), { passive: true });
+  stage.addEventListener('touchend', (e) => {
+    if (touchX === null || !current) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    touchX = null;
+    if (Math.abs(dx) > 40) showImage(current.index + (dx < 0 ? 1 : -1));
+  });
+
+  document.querySelectorAll<HTMLAnchorElement>('.card').forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+      e.preventDefault();
+      openModel(card.dataset.model!, card, true);
+    });
+  });
+
+  // Back/forward and hand-edited URLs keep the modal in sync with the hash.
+  window.addEventListener('hashchange', () => {
+    const id = idFromHash();
+    if (id) {
+      if (current?.id !== id) openModel(id, null, false);
+    } else if (dialog.open) {
+      pushedHistory = false;
+      dialog.close();
+    }
+  });
+
+  // Deep link: /catalogo/#m-123456 opens that model directly.
+  const initial = idFromHash();
+  if (initial) openModel(initial, null, false);
+  else if ('requestIdleCallback' in window) requestIdleCallback(() => loadModels().catch(() => {}));
+
+  // --- Collection menu: highlight the section in view ---
+  const navLinks = new Map(
+    [...document.querySelectorAll<HTMLAnchorElement>('.collection-nav a')].map((a) => [
+      a.dataset.section!,
+      a,
+    ]),
+  );
+  const navList = document.querySelector<HTMLElement>('.collection-nav ul')!;
+
+  function setActive(slug: string) {
+    navLinks.forEach((a, s) => a.setAttribute('aria-current', String(s === slug)));
+    const link = navLinks.get(slug);
+    // Keep the active chip in view on the horizontal bar without moving the page.
+    if (link && navList.scrollWidth > navList.clientWidth) {
+      const left = link.offsetLeft - (navList.clientWidth - link.offsetWidth) / 2;
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      navList.scrollTo({ left, behavior: reduced ? 'auto' : 'smooth' });
+    }
+  }
+
+  const sections = [...document.querySelectorAll<HTMLElement>('.collection')];
+  let activeSlug = '';
+
+  // The observer only signals "something crossed the band"; the active section
+  // is the last one whose top has passed 25% of the viewport (else the first).
+  const observer = new IntersectionObserver(
+    () => {
+      const line = innerHeight * 0.25;
+      const passed = sections.filter((s) => s.getBoundingClientRect().top <= line);
+      const slug = (passed.at(-1) ?? sections[0])?.id;
+      if (slug && slug !== activeSlug) {
+        activeSlug = slug;
+        setActive(slug);
+      }
+    },
+    { rootMargin: '-25% 0px -74% 0px' },
+  );
+  sections.forEach((s) => observer.observe(s));
+</script>
