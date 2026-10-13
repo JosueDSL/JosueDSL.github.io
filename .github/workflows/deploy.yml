@@ -8,6 +8,14 @@ on:
   schedule:
     - cron: '0 6 1 * *'
   workflow_dispatch:
+  # Called by sync-catalog.yml after it commits new catalog data: pushes made
+  # with GITHUB_TOKEN don't trigger `push` workflows, so the sync deploys itself.
+  workflow_call:
+    inputs:
+      ref:
+        description: Commit to build (defaults to the triggering commit)
+        type: string
+        required: false
 
 permissions:
   contents: read
@@ -24,6 +32,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
 
       # Build steps are explicit rather than using withastro/action, which
       # provisions its own Node and would silently diverge from this version.
