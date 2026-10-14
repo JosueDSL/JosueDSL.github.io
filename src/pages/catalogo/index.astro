@@ -414,6 +414,8 @@ const clientConfig = {
   .md-body {
     position: relative;
     display: grid;
+    /* minmax(0, …) so a long unbreakable word (e.g. a URL) can't widen the modal. */
+    grid-template-columns: minmax(0, 1fr);
     max-height: calc(100dvh - 2 * var(--space-4));
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -542,6 +544,7 @@ const clientConfig = {
 
   .md-description {
     white-space: pre-line;
+    overflow-wrap: anywhere;
     font-size: var(--text-sm);
     color: var(--text-muted);
   }
